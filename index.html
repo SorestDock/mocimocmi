@@ -1,0 +1,1596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRESSING FOR CHANGE - A Data-Driven History of India's Press</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Merriweather:wght@400;700&family=EB+Garamond:wght@400;500;600&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Merriweather:wght@400;700&family=EB+Garamond:wght@400;500;600&display=swap" rel="stylesheet"></noscript>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <style>
+:root {
+  /* Newspaper theme colors - matching qualitative PDF */
+  --news-paper: #F0EBDE;
+  --news-cream: #F5E6D3;
+  --news-ink: #1A1A1A;
+  --news-text-brown: #2C1810;
+  --news-border: #1A1A1A;
+  --news-accent: #2C1810;
+  --news-gray: #4a4a4a;
+  --news-light-gray: #d0d0d0;
+  --news-gold: #D4AF37;
+  
+  /* Original design tokens */
+  --color-white: rgba(255, 255, 255, 1);
+  --color-black: rgba(0, 0, 0, 1);
+  --color-cream-50: rgba(252, 252, 249, 1);
+  --color-cream-100: rgba(255, 255, 253, 1);
+  --color-gray-200: rgba(245, 245, 245, 1);
+  --color-gray-300: rgba(167, 169, 169, 1);
+  --color-gray-400: rgba(119, 124, 124, 1);
+  --color-slate-500: rgba(98, 108, 113, 1);
+  --color-brown-600: rgba(94, 82, 64, 1);
+  --color-charcoal-700: rgba(31, 33, 33, 1);
+  --color-charcoal-800: rgba(38, 40, 40, 1);
+  --color-slate-900: rgba(19, 52, 59, 1);
+  --color-teal-300: rgba(50, 184, 198, 1);
+  --color-teal-400: rgba(45, 166, 178, 1);
+  --color-teal-500: rgba(33, 128, 141, 1);
+  --color-teal-600: rgba(29, 116, 128, 1);
+  --color-teal-700: rgba(26, 104, 115, 1);
+  --color-teal-800: rgba(41, 150, 161, 1);
+  --color-red-400: rgba(255, 84, 89, 1);
+  --color-red-500: rgba(192, 21, 47, 1);
+  --color-orange-400: rgba(230, 129, 97, 1);
+  --color-orange-500: rgba(168, 75, 47, 1);
+  --color-brown-600-rgb: 94, 82, 64;
+  --color-teal-500-rgb: 33, 128, 141;
+  --color-slate-900-rgb: 19, 52, 59;
+  --color-slate-500-rgb: 98, 108, 113;
+  --color-red-500-rgb: 192, 21, 47;
+  --color-red-400-rgb: 255, 84, 89;
+  --color-orange-500-rgb: 168, 75, 47;
+  --color-orange-400-rgb: 230, 129, 97;
+  --color-bg-1: rgba(59, 130, 246, 0.08);
+  --color-bg-2: rgba(245, 158, 11, 0.08);
+  --color-bg-3: rgba(34, 197, 94, 0.08);
+  --color-bg-4: rgba(239, 68, 68, 0.08);
+  --color-bg-5: rgba(147, 51, 234, 0.08);
+  --color-bg-6: rgba(249, 115, 22, 0.08);
+  --color-bg-7: rgba(236, 72, 153, 0.08);
+  --color-bg-8: rgba(6, 182, 212, 0.08);
+  --color-background: var(--color-cream-50);
+  --color-surface: var(--color-cream-100);
+  --color-text: var(--color-slate-900);
+  --color-text-secondary: var(--color-slate-500);
+  --color-primary: var(--color-teal-500);
+  --color-primary-hover: var(--color-teal-600);
+  --color-primary-active: var(--color-teal-700);
+  --color-secondary: rgba(var(--color-brown-600-rgb), 0.12);
+  --color-secondary-hover: rgba(var(--color-brown-600-rgb), 0.2);
+  --color-secondary-active: rgba(var(--color-brown-600-rgb), 0.25);
+  --color-border: rgba(var(--color-brown-600-rgb), 0.2);
+  --color-btn-primary-text: var(--color-cream-50);
+  --color-card-border: rgba(var(--color-brown-600-rgb), 0.12);
+  --color-card-border-inner: rgba(var(--color-brown-600-rgb), 0.12);
+  --color-error: var(--color-red-500);
+  --color-success: var(--color-teal-500);
+  --color-warning: var(--color-orange-500);
+  --color-info: var(--color-slate-500);
+  --color-focus-ring: rgba(var(--color-teal-500-rgb), 0.4);
+  --font-family-base: "FKGroteskNeue", "Geist", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-size-xs: 11px;
+  --font-size-sm: 12px;
+  --font-size-base: 14px;
+  --font-size-lg: 16px;
+  --font-size-xl: 18px;
+  --font-size-2xl: 20px;
+  --font-size-3xl: 24px;
+  --font-size-4xl: 30px;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 550;
+  --font-weight-bold: 600;
+  --space-8: 8px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-32: 32px;
+  --radius-sm: 6px;
+  --radius-base: 8px;
+  --radius-lg: 12px;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.04), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.04), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (max-width: 768px) {
+  .word-cloud-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-gray-400-rgb: 119, 124, 124;
+    --color-teal-300-rgb: 50, 184, 198;
+    --color-gray-300-rgb: 167, 169, 169;
+    --color-gray-200-rgb: 245, 245, 245;
+    --color-bg-1: rgba(29, 78, 216, 0.15);
+    --color-bg-2: rgba(180, 83, 9, 0.15);
+    --color-bg-3: rgba(21, 128, 61, 0.15);
+    --color-bg-4: rgba(185, 28, 28, 0.15);
+    --color-bg-5: rgba(107, 33, 168, 0.15);
+    --color-bg-6: rgba(194, 65, 12, 0.15);
+    --color-bg-7: rgba(190, 24, 93, 0.15);
+    --color-bg-8: rgba(8, 145, 178, 0.15);
+    --color-background: var(--color-charcoal-700);
+    --color-surface: var(--color-charcoal-800);
+    --color-text: var(--color-gray-200);
+    --color-text-secondary: rgba(var(--color-gray-300-rgb), 0.7);
+    --color-primary: var(--color-teal-300);
+    --color-primary-hover: var(--color-teal-400);
+    --color-primary-active: var(--color-teal-800);
+    --color-secondary: rgba(var(--color-gray-400-rgb), 0.15);
+    --color-secondary-hover: rgba(var(--color-gray-400-rgb), 0.25);
+    --color-secondary-active: rgba(var(--color-gray-400-rgb), 0.3);
+    --color-border: rgba(var(--color-gray-400-rgb), 0.3);
+    --color-btn-primary-text: var(--color-slate-900);
+    --color-card-border: rgba(var(--color-gray-400-rgb), 0.2);
+    --color-card-border-inner: rgba(var(--color-gray-400-rgb), 0.15);
+  }
+}
+
+@font-face {
+  font-family: 'FKGroteskNeue';
+  src: url('https://r2cdn.perplexity.ai/fonts/FKGroteskNeue.woff2') format('woff2');
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Merriweather', Georgia, serif;
+  background-color: var(--news-paper);
+  color: var(--news-text-brown);
+  line-height: 1.75;
+  padding: var(--space-24);
+  background-image: 
+    linear-gradient(0deg, transparent 24%, rgba(44, 24, 16, 0.02) 25%, rgba(44, 24, 16, 0.02) 26%, transparent 27%, transparent 74%, rgba(44, 24, 16, 0.02) 75%, rgba(44, 24, 16, 0.02) 76%, transparent 77%, transparent),
+    linear-gradient(90deg, transparent 24%, rgba(44, 24, 16, 0.02) 25%, rgba(44, 24, 16, 0.02) 26%, transparent 27%, transparent 74%, rgba(44, 24, 16, 0.02) 75%, rgba(44, 24, 16, 0.02) 76%, transparent 77%, transparent);
+  background-size: 50px 50px;
+  overflow-x: hidden;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+header {
+  text-align: center;
+  margin-bottom: var(--space-32);
+  border-bottom: 4px double var(--news-border);
+  padding-bottom: var(--space-24);
+  background-color: var(--news-cream);
+  border: 3px solid var(--news-border);
+  border-radius: 2px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+.masthead {
+  border-bottom: 2px solid var(--news-border);
+  padding-bottom: var(--space-12);
+  margin-bottom: var(--space-16);
+}
+
+.dateline {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 13px;
+  color: var(--news-text-brown);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: var(--space-8);
+}
+
+h1 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 48px;
+  font-weight: 900;
+  color: var(--news-ink);
+  text-transform: uppercase;
+  margin-bottom: var(--space-12);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  line-height: 1.1;
+  text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.05);
+}
+
+.subtitle {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 18px;
+  color: var(--news-text-brown);
+  font-style: italic;
+  border-top: 1px solid var(--news-light-gray);
+  padding-top: var(--space-12);
+}
+
+.edition-selector {
+  background-color: var(--news-cream);
+  border: 2px solid var(--news-border);
+  padding: var(--space-20);
+  margin-bottom: var(--space-24);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.edition-label {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 20px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: var(--space-16);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--news-ink);
+  border-bottom: 2px solid var(--news-border);
+  padding-bottom: var(--space-8);
+}
+
+.slider-container {
+  padding: var(--space-20) var(--space-24);
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.decade-slider {
+  width: 100%;
+  height: 8px;
+  background: linear-gradient(to right, 
+    #F5E6D3 0%, 
+    #E8D4B8 25%, 
+    #D4AF37 50%, 
+    #C4A747 75%, 
+    #9B7E3A 100%);
+  border: 2px solid var(--news-border);
+  outline: none;
+  border-radius: 0;
+  -webkit-appearance: none;
+  appearance: none;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.decade-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  background-color: var(--news-ink);
+  border: 3px solid var(--news-cream);
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s ease;
+}
+
+.decade-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+}
+
+.decade-slider::-webkit-slider-thumb:active {
+  transform: scale(1.25);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.decade-slider::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  background-color: var(--news-ink);
+  border: 3px solid var(--news-cream);
+  cursor: pointer;
+  border-radius: 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s ease;
+}
+
+.decade-slider::-moz-range-thumb:hover {
+  transform: scale(1.15);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+}
+
+.decade-slider::-moz-range-thumb:active {
+  transform: scale(1.25);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.slider-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--space-12);
+  padding: 0 2px;
+}
+
+.slider-label {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--news-text-brown);
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  flex: 1;
+  transition: all 0.2s ease;
+}
+
+.slider-label.active {
+  color: var(--news-ink);
+  font-weight: 700;
+  font-size: 12px;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+.decade-info {
+  background-color: var(--news-cream);
+  border: 3px solid var(--news-border);
+  border-radius: 0;
+  padding: var(--space-24);
+  margin-bottom: var(--space-24);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.decade-info h2 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: var(--space-12);
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 3px double var(--news-border);
+  padding-bottom: var(--space-12);
+  color: var(--news-ink);
+}
+
+.commentary-label {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: var(--space-8);
+  color: var(--news-text-brown);
+  text-align: center;
+}
+
+.decade-info p {
+  color: var(--news-text-brown);
+  font-size: 16px;
+  text-align: center;
+  margin-bottom: var(--space-20);
+  font-family: 'Merriweather', Georgia, serif;
+  line-height: 1.8;
+  font-style: italic;
+  border-left: 3px solid var(--news-border);
+  border-right: 3px solid var(--news-border);
+  padding: var(--space-12) var(--space-16);
+}
+
+.headlines-section {
+  border-top: 2px solid var(--news-border);
+  padding-top: var(--space-16);
+}
+
+.headlines-label {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 18px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: var(--space-16);
+  text-align: center;
+  color: var(--news-ink);
+}
+
+.top-states {
+  display: flex;
+  gap: var(--space-12);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.state-card {
+  background-color: var(--news-cream);
+  border: 2px solid var(--news-border);
+  border-radius: 0;
+  padding: var(--space-12) var(--space-16);
+  text-align: center;
+  min-width: 140px;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
+}
+
+.state-rank {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 12px;
+  color: var(--news-text-brown);
+  margin-bottom: 4px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.state-name {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--news-ink);
+  margin-bottom: 6px;
+  border-bottom: 1px solid var(--news-light-gray);
+  padding-bottom: 4px;
+}
+
+.state-value {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 20px;
+  font-weight: 900;
+  color: var(--news-ink);
+}
+
+.visualization-container {
+  background-color: var(--news-cream);
+  border: 4px solid var(--news-border);
+  border-radius: 0;
+  padding: var(--space-24);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.map-headline {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 28px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: var(--space-16);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--news-ink);
+  border-bottom: 3px double var(--news-border);
+  padding-bottom: var(--space-12);
+}
+
+#choroplethMap {
+  width: 100%;
+  height: 650px;
+  border: 2px solid var(--news-border);
+  background-color: white;
+}
+
+.analysis-section {
+  background-color: var(--news-cream);
+  border: 4px solid var(--news-border);
+  border-radius: 0;
+  margin-top: var(--space-24);
+  padding: var(--space-32);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.analysis-header {
+  border-bottom: 3px double var(--news-border);
+  padding-bottom: var(--space-16);
+  margin-bottom: var(--space-24);
+  text-align: center;
+}
+
+.analysis-headline {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 32px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--news-ink);
+  margin-bottom: var(--space-8);
+}
+
+.analysis-byline {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--news-text-brown);
+  margin-bottom: var(--space-4);
+}
+
+.analysis-date {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 13px;
+  color: var(--news-gray);
+  font-style: italic;
+}
+
+.analysis-body {
+  background-color: var(--news-cream);
+  border: 2px solid var(--news-border);
+  padding: var(--space-24) var(--space-32);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.analysis-text {
+  font-family: 'Merriweather', Georgia, serif;
+  font-size: 16px;
+  line-height: 1.9;
+  color: var(--news-ink);
+  text-align: justify;
+  text-justify: inter-word;
+  column-count: 1;
+  column-gap: var(--space-32);
+  opacity: 1;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.analysis-text.fade-out {
+  opacity: 0;
+}
+
+.analysis-text em {
+  font-style: italic;
+  color: var(--news-text-brown);
+}
+
+.analysis-text strong {
+  font-weight: 700;
+  color: var(--news-ink);
+}
+
+@media (min-width: 1024px) {
+  .analysis-text {
+    column-count: 2;
+  }
+}
+
+/* Dashboard Cards */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--space-24);
+  margin-bottom: var(--space-32);
+}
+
+.dashboard-card {
+  background-color: var(--news-cream);
+  border: 3px solid var(--news-border);
+  border-radius: 0;
+  padding: var(--space-24);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.dashboard-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(to right, var(--news-gold), var(--news-accent));
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+}
+
+.dashboard-card:hover::before {
+  transform: scaleX(1);
+}
+
+.dashboard-card:active {
+  transform: translateY(-2px);
+}
+
+.placeholder-card {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.placeholder-card:hover {
+  transform: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+.card-icon {
+  font-size: 48px;
+  text-align: center;
+  margin-bottom: var(--space-16);
+}
+
+.card-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--news-ink);
+  margin-bottom: var(--space-12);
+  text-align: center;
+  border-bottom: 2px solid var(--news-border);
+  padding-bottom: var(--space-8);
+}
+
+.card-subtitle {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 16px;
+  color: var(--news-text-brown);
+  font-style: italic;
+  text-align: center;
+  margin-bottom: var(--space-16);
+  line-height: 1.6;
+}
+
+.card-footer {
+  font-family: 'Merriweather', Georgia, serif;
+  font-size: 13px;
+  color: var(--news-gray);
+  text-align: center;
+  padding-top: var(--space-12);
+  line-height: 1.5;
+}
+
+/* Modal Styles */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.85);
+  z-index: 1000;
+  overflow-y: auto;
+  padding: var(--space-24);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.modal-overlay.active {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  opacity: 1;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal-content {
+  background-color: var(--news-paper);
+  border: 4px solid var(--news-border);
+  border-radius: 0;
+  width: 90%;
+  max-width: 1400px;
+  max-height: 90vh;
+  position: relative;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  animation: slideIn 0.4s ease;
+  margin: var(--space-24) auto;
+}
+
+.modal-close {
+  position: absolute;
+  top: var(--space-16);
+  right: var(--space-16);
+  background-color: var(--news-ink);
+  color: var(--news-cream);
+  border: 2px solid var(--news-cream);
+  font-size: 32px;
+  line-height: 1;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.2s ease;
+  font-family: Arial, sans-serif;
+  font-weight: 700;
+}
+
+.modal-close:hover {
+  background-color: var(--news-cream);
+  color: var(--news-ink);
+  transform: scale(1.1);
+}
+
+.modal-close:active {
+  transform: scale(0.95);
+}
+
+.modal-body {
+  overflow-y: auto;
+  max-height: calc(90vh - 8px);
+  padding: var(--space-24);
+  padding-top: 60px;
+}
+
+/* Adjust spacing for modal content */
+.modal-body .edition-selector {
+  margin-top: 0;
+}
+
+/* Tab Navigation Styles */
+.tab-navigation {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  border-bottom: 3px solid var(--news-border);
+  padding-bottom: 0;
+  background-color: var(--news-cream);
+  padding: 12px 12px 0 12px;
+  border-top: 3px solid var(--news-border);
+}
+
+.tab-button {
+  flex: 1;
+  padding: 12px 20px;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 15px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background-color: var(--news-ink);
+  color: var(--news-cream);
+  border: 2px solid var(--news-border);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border-radius: 0;
+  border-bottom: none;
+}
+
+.tab-button:hover {
+  background-color: var(--news-text-brown);
+  transform: translateY(-2px);
+}
+
+.tab-button.active {
+  background-color: var(--news-cream);
+  color: var(--news-ink);
+  font-weight: 700;
+  border-bottom: 3px solid var(--news-cream);
+  margin-bottom: -3px;
+}
+
+.tab-content {
+  opacity: 0;
+  animation: fadeIn 0.3s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Tablet breakpoint */
+@media (max-width: 1024px) {
+  .cards-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: var(--space-20);
+  }
+  h1 {
+    font-size: 38px;
+  }
+  .analysis-text {
+    column-count: 1;
+  }
+}
+
+/* Mobile breakpoint */
+@media (max-width: 768px) {
+  .tab-navigation {
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .tab-button {
+    width: 100%;
+    padding: 10px 16px;
+    font-size: 13px;
+  }
+  
+  body {
+    padding: var(--space-16);
+  }
+  h1 {
+    font-size: var(--font-size-3xl);
+  }
+  .cards-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-16);
+  }
+  .modal-overlay {
+    padding: var(--space-12);
+  }
+  .modal-content {
+    width: 95%;
+    max-height: 95vh;
+  }
+  .modal-body {
+    padding: var(--space-16);
+    padding-top: 50px;
+    max-height: calc(95vh - 8px);
+  }
+  .modal-close {
+    width: 36px;
+    height: 36px;
+    font-size: 28px;
+    top: var(--space-12);
+    right: var(--space-12);
+  }
+  #choroplethMap {
+    height: 400px;
+  }
+  .analysis-section {
+    padding: var(--space-20);
+  }
+  .analysis-body {
+    padding: var(--space-16) var(--space-20);
+  }
+  .analysis-text {
+    font-size: 15px;
+    text-align: left;
+    column-count: 1;
+  }
+  
+  /* Mobile-friendly chart heights */
+  #languagePieChart,
+  #literacyScatterChart,
+  #survivalBarChart,
+  #frequencyChart,
+  #foreignLanguageChart,
+  #registrationChart {
+    height: 400px !important;
+  }
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="masthead">
+                <div class="dateline">Established 1900 • A Century of Indian Press</div>
+                <h1>Pressing for Change</h1>
+                <p class="subtitle">A Data-Driven History of India's Press • Evolution Through the 20th Century</p>
+            </div>
+        </header>
+
+        <!-- Dashboard Cards Grid -->
+        <div class="cards-grid">
+            <div class="dashboard-card" id="card-1" onclick="openModalByNumber(1)">
+                <div class="card-icon">📊</div>
+                <h3 class="card-title">Regional Periodicals Distribution by Decade</h3>
+                <div class="card-footer">Interactive Heatmap showing how periodical publications spread across Indian states over 9 decades</div>
+            </div>
+            
+            <div class="dashboard-card" id="card-2" onclick="openModalByNumber(2)">
+                <div class="card-icon">🗣️</div>
+                <h3 class="card-title">Press Language Distribution</h3>
+                <div class="card-footer">Interactive visualizations showing language distribution and state-wise coverage</div>
+            </div>
+            
+            <div class="dashboard-card" id="card-3" onclick="openModalByNumber(3)">
+                <div class="card-icon">📋</div>
+                <h3 class="card-title">Press Institutionalization</h3>
+                <div class="card-footer">Timeline showing registration surge through different eras and POMA impact</div>
+            </div>
+            
+            <div class="dashboard-card" id="card-4" onclick="openModalByNumber(4)">
+                <div class="card-icon">📚</div>
+                <h3 class="card-title">Literacy &amp; Press Accessibility</h3>
+                <div class="card-footer">All 35 states scatter plot revealing how geography shapes access</div>
+            </div>
+            
+            <div class="dashboard-card" id="card-5" onclick="openModalByNumber(5)">
+                <div class="card-icon">📉</div>
+                <h3 class="card-title">Survival Rates Across States</h3>
+                <div class="card-footer">30+ states showing survival from 50% (Lakshadweep) to 13% (Odisha)</div>
+            </div>
+            
+            <div class="dashboard-card" id="card-6" onclick="openModalByNumber(6)">
+                <div class="card-icon">📅</div>
+                <h3 class="card-title">Publication Frequency Analysis</h3>
+                <div class="card-footer">Enhanced analysis with state-by-state periodicity and security deposit impact</div>
+            </div>
+            
+            <div class="dashboard-card" id="card-7" onclick="openModalByNumber(7)">
+                <div class="card-icon">🌍</div>
+                <h3 class="card-title">Foreign Language Publications</h3>
+                <div class="card-footer">Nepali dominance, Tibetan refugees, and geographic clustering analysis</div>
+            </div>
+            
+            <div class="dashboard-card" id="card-8" onclick="openModalByNumber(8)">
+                <div class="card-icon">💬</div>
+                <h3 class="card-title">Shifting Discourse: Language Analysis Before &amp; After Independence</h3>
+                <div class="card-footer">Bag-of-words analysis showing semantic transformation from colonial to sovereign nation</div>
+            </div>
+        </div>
+
+        <!-- Modal Popup -->
+        <div class="modal-overlay" id="modalOverlay">
+            <div class="modal-content">
+                <button class="modal-close" onclick="closeModal()" aria-label="Close">&times;</button>
+                
+                <div class="modal-body">
+                    <!-- Tab Navigation -->
+                    <div class="tab-navigation">
+                        <button class="tab-button active" onclick="showTab(1, 1)">Decade Map</button>
+                        <button class="tab-button" onclick="showTab(1, 3)">Context</button>
+                    </div>
+                    
+                    <!-- Tab 1: Decade Map -->
+                    <div class="tab-content" id="card1-tab1">
+
+
+        <div class="decade-info" id="decadeInfo">
+            <h2 id="decadeTitle"></h2>
+            <div class="commentary-label">Editor's Commentary</div>
+            <p id="decadeContext"></p>
+            <div class="headlines-section">
+                <div class="headlines-label">Featured Stories: Top 5 Regions</div>
+                <div class="top-states" id="topStates"></div>
+            </div>
+        </div>
+        <div class="edition-selector">
+            <div class="edition-label">Select Edition by Decade</div>
+            <div class="slider-container">
+                <input type="range" id="decadeSlider" class="decade-slider" min="0" max="8" value="0" step="1">
+                <div class="slider-labels" id="sliderLabels"></div>
+            </div>
+        </div>
+
+        <div class="visualization-container">
+            <div class="map-headline">Regional Distribution Map</div>
+            <div id="choroplethMap"></div>
+        </div>
+
+                    </div>
+                    </div>
+                    
+                    <!-- Tab 2: Analysis -->
+                    <div class="tab-content" id="card1-tab2" style="display: none;">
+                    <div class="analysis-section" id="analysisSection">
+            <div class="analysis-header">
+                <div class="analysis-headline">Historical Inference</div>
+                <div class="analysis-byline">Analysis using Qualitative Data</div>
+                <div class="analysis-date" id="analysisDate"></div>
+            </div>
+            <div class="analysis-body">
+                <div class="analysis-text" id="analysisText"></div>
+            </div>
+        </div>
+                </div>
+                    </div>
+                    
+                    <!-- Tab 3: Context -->
+                    <div class="tab-content" id="card1-tab3" style="display: none;">
+                        <div class="visualization-container">
+                            <div class="map-headline">Data Source &amp; Timeline Context</div>
+                            <div class="analysis-body">
+                                <div class="analysis-text">
+                                    <p><strong>Data Source:</strong> Press Registry of India (RNI) database covering periodical registrations from 1900-2024. Dataset includes 116,531 total periodical registrations across 35 Indian states and union territories.</p>
+                                    <p><strong>Timeline Coverage:</strong> Nine decades of press evolution (1900-1940, 1941-1950, 1951-1960, 1961-1970, 1971-1980, 1981-1990, 1991-2000, 2001-2010, 2011+), spanning colonial censorship through digital transformation.</p>
+                                    <p><strong>Geographic Scope:</strong> All Indian states including post-independence formations (Chhattisgarh, Jharkhand, Uttarakhand) and union territories. State boundaries reflect contemporary administrative divisions.</p>
+                                    <p><strong>Methodology:</strong> Heatmap visualization uses quantile-based color scaling to show relative distribution. Top 5 states highlighted per decade to illustrate regional press concentration and migration patterns.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal 2: Language Distribution -->
+        <div class="modal-overlay" id="modalOverlay2">
+            <div class="modal-content">
+                <button class="modal-close" onclick="closeModal2()" aria-label="Close">&times;</button>
+                <div class="modal-body">
+                    <!-- Tab Navigation -->
+                    <div class="tab-navigation">
+                        <button class="tab-button active" onclick="showTab(2, 1)">Language Distribution</button>
+                        <button class="tab-button" onclick="showTab(2, 2)">By State</button>
+                        <button class="tab-button" onclick="showTab(2, 3)">Timeline</button>
+                    </div>
+                    
+                    <!-- Tab 1: Language Distribution -->
+                    <div class="tab-content" id="card2-tab1">
+                    <div class="visualization-container">
+                        <div class="map-headline">Press Language Distribution</div>
+                        <p style="text-align: center; font-style: italic; margin-bottom: 12px;">How linguistic diversity reflects constitutional protections</p>
+                        <p style="text-align: center; font-size: 13px; color: var(--news-text-brown); margin-bottom: 24px;"><strong>Data from: 2024 Census/Registration Records</strong></p>
+                        <div id="languagePieChart" style="height: 500px;"></div>
+                    </div>
+                    </div>
+                    
+                    <!-- Tab 2: By State -->
+                    <div class="tab-content" id="card2-tab2" style="display: none;">
+                    <div class="visualization-container">
+                        <div class="map-headline">Languages Covered by State</div>
+                        <div id="languagesByStateChart" style="height: 500px;"></div>
+                    </div>
+                    </div>
+                    
+                    <!-- Tab 3: Timeline -->
+                    <div class="tab-content" id="card2-tab3" style="display: none;">
+                    <div class="visualization-container">
+                        <div class="map-headline">Language Evolution Through Political Eras</div>
+                        <div id="languageTimelineChart" style="height: 500px;"></div>
+                    </div>
+                    </div>
+                    </div>
+                    
+                    
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal 3: Literacy & Access -->
+        <div class="modal-overlay" id="modalOverlay3">
+            <div class="modal-content">
+                <button class="modal-close" onclick="closeModal3()" aria-label="Close">&times;</button>
+                <div class="modal-body">
+                    <!-- Tab Navigation -->
+                    <div class="tab-navigation">
+                        <button class="tab-button active" onclick="showTab(3, 1)">Scatter Plot</button>
+                        <button class="tab-button" onclick="showTab(3, 2)">Bar Chart</button>
+                        <button class="tab-button" onclick="showTab(3, 3)">Literacy Bands</button>
+                    </div>
+                    
+                    <!-- Tab 1: Scatter Plot -->
+                    <div class="tab-content" id="card3-tab1">
+                    <div class="visualization-container">
+                        <div class="map-headline">Literacy &amp; Press Accessibility</div>
+                        <p style="text-align: center; font-style: italic; margin-bottom: 24px;">Does press freedom translate to information access?</p>
+                        <div id="literacyScatterChart" style="height: 600px;"></div>
+                    </div>
+                    </div>
+                    
+                    <!-- Tab 2: Bar Chart -->
+                    <div class="tab-content" id="card3-tab2" style="display: none;">
+                    <div class="visualization-container">
+                        <div class="map-headline">States Ranked by Literacy Rate</div>
+                        <div id="literacyBarChart" style="height: 600px;"></div>
+                    </div>
+                    </div>
+                    
+                    <!-- Tab 3: Literacy Bands -->
+                    <div class="tab-content" id="card3-tab3" style="display: none;">
+                    <div class="visualization-container">
+                        <div class="map-headline">States Grouped by Literacy Performance</div>
+                        <div class="analysis-body" style="padding: 24px;">
+                            <div class="analysis-text" style="columns: 1;">
+                                <h3 style="color: #1FB8CD; margin-bottom: 12px;">🏆 Elite (&gt;85% Literacy)</h3>
+                                <p><strong>Kerala (93.9%)</strong> - 0.132 titles/1000 | <strong>Lakshadweep (92.3%)</strong> - 0.140 titles/1000<br>
+                                <strong>Mizoram (91.6%)</strong> - 0.186 titles/1000 | <strong>Goa (87.4%)</strong> - 0.071 titles/1000<br>
+                                <strong>Tripura (87.8%)</strong> - 0.042 titles/1000 | <strong>Daman &amp; Diu (87.1%)</strong> - 0.060 titles/1000<br>
+                                <strong>Delhi (86.3%)</strong> - 1.003 titles/1000 | <strong>Chandigarh (86.4%)</strong> - 0.493 titles/1000</p>
+                                
+                                <h3 style="color: #5D878F; margin-top: 24px; margin-bottom: 12px;">📖 High (75-85% Literacy)</h3>
+                                <p><strong>Maharashtra (82.9%)</strong> - 0.165 titles/1000 | <strong>Punjab (76.7%)</strong> - 0.138 titles/1000<br>
+                                <strong>West Bengal (77.1%)</strong> - 0.100 titles/1000 | <strong>Tamil Nadu (80.3%)</strong> - 0.127 titles/1000<br>
+                                <strong>Karnataka (75.6%)</strong> - 0.129 titles/1000 | <strong>Gujarat (79.3%)</strong> - 0.111 titles/1000<br>
+                                <strong>Haryana (76.6%)</strong> - 0.104 titles/1000 | <strong>Uttarakhand (79.6%)</strong> - 0.269 titles/1000</p>
+                                
+                                <h3 style="color: #FFC185; margin-top: 24px; margin-bottom: 12px;">📝 Medium (70-74% Literacy)</h3>
+                                <p><strong>Madhya Pradesh (70.6%)</strong> - 0.174 titles/1000 | <strong>Odisha (73.5%)</strong> - 0.070 titles/1000<br>
+                                <strong>Assam (73.2%)</strong> - 0.034 titles/1000 | <strong>Chhattisgarh (71.0%)</strong> - 0.046 titles/1000</p>
+                                
+                                <h3 style="color: #DB4545; margin-top: 24px; margin-bottom: 12px;">⚠️ Low (&lt;70% Literacy)</h3>
+                                <p><strong>Bihar (63.8%)</strong> - 0.033 titles/1000 | <strong>Jharkhand (67.6%)</strong> - 0.009 titles/1000<br>
+                                <strong>Rajasthan (67.1%)</strong> - 0.138 titles/1000 | <strong>Andhra Pradesh (67.7%)</strong> - 0.117 titles/1000<br>
+                                <strong>Arunachal Pradesh (67.0%)</strong> - 0.021 titles/1000</p>
+                                
+                                <p style="margin-top: 24px; font-style: italic; border-left: 3px solid var(--news-border); padding-left: 16px;">
+                                <strong>Key Insight:</strong> Delhi leads in accessibility despite not having highest literacy. Urban concentration drives press availability more than education alone.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    
+                    
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal 4: Survival Rates -->
+        <div class="modal-overlay" id="modalOverlay4">
+            <div class="modal-content">
+                <button class="modal-close" onclick="closeModal4()" aria-label="Close">&times;</button>
+                <div class="modal-body">
+                    <!-- Tab Navigation -->
+                    <div class="tab-navigation">
+                        <button class="tab-button active" onclick="showTab(4, 1)">Bar Chart</button>
+                        <button class="tab-button" onclick="showTab(4, 2)">Geographic View</button>
+                        <button class="tab-button" onclick="showTab(4, 3)">State Details</button>
+                    </div>
+                    
+                    <!-- Tab 1: Bar Chart -->
+                    <div class="tab-content" id="card4-tab1">
+                    <div class="visualization-container">
+                        <div class="map-headline">Survival Rates Across States</div>
+                        <p style="text-align: center; font-style: italic; margin-bottom: 24px;">Which states' periodicals survived censorship and market forces?</p>
+                        <div id="survivalBarChart" style="height: 600px;"></div>
+                    </div>
+                    </div>
+                    
+                    <!-- Tab 2: Geographic View -->
+                    <div class="tab-content" id="card4-tab2" style="display: none;">
+                    <div class="visualization-container">
+                        <div class="map-headline">Geographic View: Survival Rates by Region</div>
+                        <p style="text-align: center; font-style: italic; margin-bottom: 24px; color: var(--news-text-brown);">States grouped by geographic region with survival percentages</p>
+                        <div class="analysis-body" style="padding: 24px;">
+                            <div class="analysis-text" style="columns: 2; column-gap: 32px;">
+                                <div style="break-inside: avoid; margin-bottom: 24px;">
+                                    <h3 style="color: #1FB8CD; margin-bottom: 12px; font-size: 18px;">🌏 NORTH REGION</h3>
+                                    <p style="line-height: 1.8; margin: 0;">
+                                        <strong>Delhi:</strong> 23.35%<br>
+                                        <strong>Punjab:</strong> 16.62%<br>
+                                        <strong>Haryana:</strong> 19.29%<br>
+                                        <strong style="color: #1FB8CD;">Uttarakhand:</strong> 48.01% <em>(highest in region)</em><br>
+                                        <strong>Himachal Pradesh:</strong> 18.84%<br>
+                                        <strong>Jammu &amp; Kashmir:</strong> -<br>
+                                        <strong>Chandigarh:</strong> 16.76%
+                                    </p>
+                                </div>
+                                
+                                <div style="break-inside: avoid; margin-bottom: 24px;">
+                                    <h3 style="color: #FFC185; margin-bottom: 12px; font-size: 18px;">🌴 SOUTH REGION</h3>
+                                    <p style="line-height: 1.8; margin: 0;">
+                                        <strong>Kerala:</strong> 14.29%<br>
+                                        <strong>Tamil Nadu:</strong> 22.43%<br>
+                                        <strong>Karnataka:</strong> 16.88%<br>
+                                        <strong>Andhra Pradesh:</strong> 25.64%<br>
+                                        <strong>Telangana:</strong> -<br>
+                                        <strong>Pondicherry:</strong> 14.01%
+                                    </p>
+                                </div>
+                                
+                                <div style="break-inside: avoid; margin-bottom: 24px;">
+                                    <h3 style="color: #B4413C; margin-bottom: 12px; font-size: 18px;">🌾 EAST REGION</h3>
+                                    <p style="line-height: 1.8; margin: 0;">
+                                        <strong>West Bengal:</strong> 27.92%<br>
+                                        <strong style="color: #DB4545;">Odisha:</strong> 12.99% <em>(lowest overall)</em><br>
+                                        <strong>Jharkhand:</strong> 26.89%<br>
+                                        <strong>Bihar:</strong> 28.92%
+                                    </p>
+                                </div>
+                                
+                                <div style="break-inside: avoid; margin-bottom: 24px;">
+                                    <h3 style="color: #D2BA4C; margin-bottom: 12px; font-size: 18px;">⛰️ NORTHEAST REGION</h3>
+                                    <p style="line-height: 1.8; margin: 0;">
+                                        <strong>Tripura:</strong> 36.36%<br>
+                                        <strong>Sikkim:</strong> 45.00%<br>
+                                        <strong>Manipur:</strong> 20.97%<br>
+                                        <strong>Meghalaya:</strong> 26.74%<br>
+                                        <strong>Mizoram:</strong> 16.89%<br>
+                                        <strong>Nagaland:</strong> 18.96%<br>
+                                        <strong>Arunachal Pradesh:</strong> 20.61%<br>
+                                        <strong>Assam:</strong> 26.05%
+                                    </p>
+                                </div>
+                                
+                                <div style="break-inside: avoid; margin-bottom: 24px;">
+                                    <h3 style="color: #5D878F; margin-bottom: 12px; font-size: 18px;">🏭 WEST REGION</h3>
+                                    <p style="line-height: 1.8; margin: 0;">
+                                        <strong>Maharashtra:</strong> 15.80%<br>
+                                        <strong>Gujarat:</strong> 26.35%<br>
+                                        <strong>Goa:</strong> 16.78%<br>
+                                        <strong>Rajasthan:</strong> 26.54%
+                                    </p>
+                                </div>
+                                
+                                <div style="break-inside: avoid; margin-bottom: 24px;">
+                                    <h3 style="color: #964325; margin-bottom: 12px; font-size: 18px;">🏛️ CENTRAL REGION</h3>
+                                    <p style="line-height: 1.8; margin: 0;">
+                                        <strong>Madhya Pradesh:</strong> 24.54%<br>
+                                        <strong>Chhattisgarh:</strong> 23.04%
+                                    </p>
+                                </div>
+                                
+                                <div style="break-inside: avoid; margin-bottom: 24px;">
+                                    <h3 style="color: #7A6430; margin-bottom: 12px; font-size: 18px;">🏝️ OTHER TERRITORIES</h3>
+                                    <p style="line-height: 1.8; margin: 0;">
+                                        <strong style="color: #1FB8CD;">Lakshadweep:</strong> 50.00% <em>(highest overall)</em>
+                                    </p>
+                                </div>
+                                
+                                <div style="break-inside: avoid; margin-top: 24px; padding: 16px; background-color: var(--color-bg-1); border-left: 4px solid #1FB8CD; column-span: all;">
+                                    <p style="margin: 0; font-style: italic; font-size: 15px;">
+                                        <strong>Key Insights:</strong> Geographic patterns reveal Uttarakhand (48.01%) and Lakshadweep (50%) lead in survival rates, while Odisha (12.99%) shows lowest persistence. Northern hill states demonstrate higher survival compared to established southern publishing centers, suggesting newer registrations face better market conditions than legacy publications.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    
+                    <!-- Tab 3: State Details -->
+                    <div class="tab-content" id="card4-tab3" style="display: none;">
+                    <div class="visualization-container">
+                        <div class="map-headline">Regional Breakdown: Survival Performance</div>
+                        <div class="analysis-body" style="padding: 24px;">
+                            <div class="analysis-text" style="columns: 1;">
+                                <h3 style="color: #1FB8CD; margin-bottom: 12px;">🌏 North India</h3>
+                                <p><strong>Delhi:</strong> 62,117 total | 14,504 active | 23.35% survival<br>
+                                <strong>Punjab:</strong> 17,670 total | 2,937 active | 16.62% survival<br>
+                                <strong>Haryana:</strong> 10,520 total | 2,029 active | 19.29% survival<br>
+                                <strong>Uttarakhand:</strong> 2,239 total | 1,075 active | 48.01% survival (highest major state)<br>
+                                <strong>Himachal Pradesh:</strong> 1,768 total | 333 active | 18.84% survival</p>
+                                
+                                <h3 style="color: #FFC185; margin-top: 24px; margin-bottom: 12px;">🌴 South India</h3>
+                                <p><strong>Kerala:</strong> 29,006 total | 4,144 active | 14.29% survival<br>
+                                <strong>Tamil Nadu:</strong> 32,987 total | 7,397 active | 22.43% survival<br>
+                                <strong>Karnataka:</strong> 35,534 total | 5,998 active | 16.88% survival<br>
+                                <strong>Andhra Pradesh:</strong> 26,261 total | 6,735 active | 25.64% survival<br>
+                                <strong>Pondicherry:</strong> 1,142 total | 160 active | 14.01% survival</p>
+                                
+                                <h3 style="color: #B4413C; margin-top: 24px; margin-bottom: 12px;">🌾 East India</h3>
+                                <p><strong>West Bengal:</strong> 3,865 total | 1,079 active | 27.92% survival<br>
+                                <strong>Odisha:</strong> 16,706 total | 2,170 active | 12.99% survival (lowest major state)<br>
+                                <strong>Jharkhand:</strong> 766 total | 206 active | 26.89% survival<br>
+                                <strong>Bihar:</strong> 6,961 total | 2,014 active | 28.92% survival</p>
+                                
+                                <h3 style="color: #D2BA4C; margin-top: 24px; margin-bottom: 12px;">⛰️ Northeast India</h3>
+                                <p><strong>Tripura:</strong> 58 total | 21 active | 36.36% survival<br>
+                                <strong>Sikkim:</strong> 38 total | 17 active | 45.0% survival<br>
+                                <strong>Manipur:</strong> 1,025 total | 215 active | 20.97% survival<br>
+                                <strong>Assam:</strong> 2,991 total | 779 active | 26.05% survival<br>
+                                <strong>Mizoram:</strong> 1,095 total | 185 active | 16.89% survival</p>
+                                
+                                <p style="margin-top: 24px; font-style: italic; border-left: 3px solid var(--news-border); padding-left: 16px;">
+                                <strong>Key Insight:</strong> Smaller states like Uttarakhand and Sikkim show higher survival rates due to recent registrations and smaller print ecosystems. Older publishing centers face higher attrition.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    
+                    
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal 5: Publication Frequency -->
+        <div class="modal-overlay" id="modalOverlay5">
+            <div class="modal-content">
+                <button class="modal-close" onclick="closeModal5()" aria-label="Close">&times;</button>
+                <div class="modal-body">
+                    <!-- Tab Navigation -->
+                    <div class="tab-navigation">
+                        <button class="tab-button active" onclick="showTab(5, 1)">By Language</button>
+                        <button class="tab-button" onclick="showTab(5, 2)">By State</button>
+                        <button class="tab-button" onclick="showTab(5, 3)">Censorship Timeline</button>
+                    </div>
+                    
+                    <!-- Tab 1: By Language -->
+                    <div class="tab-content" id="card5-tab1">
+                    <div class="visualization-container">
+                        <p style="text-align: center; font-style: italic; margin-bottom: 24px;">How censorship shaped publication schedules</p>
+                        <div id="frequencyChart" style="height: 600px;"></div>
+                    </div>
+                    </div>
+                    
+                    <!-- Tab 2: By State -->
+                    <div class="tab-content" id="card5-tab2" style="display: none;">
+                    <div class="visualization-container">
+                        <div class="map-headline">State-wise Publication Frequency Breakdown</div>
+                        <div id="frequencyStateChart" style="height: 600px;"></div>
+                    </div>
+                    </div>
+                    
+                    <!-- Tab 3: Censorship Timeline -->
+                    <div class="tab-content" id="card5-tab3" style="display: none;">
+                    <div class="visualization-container">
+                        <div class="map-headline">How Censorship Laws Shaped Publication Frequency</div>
+                        <div id="frequencyTimelineChart" style="height: 500px;"></div>
+                        <div class="analysis-body" style="padding: 24px; margin-top: 24px;">
+                            <div class="analysis-text" style="columns: 1;">
+                                <h3 style="color: #1FB8CD; margin-bottom: 12px;">📜 1857-1910: Press Act Era</h3>
+                                <p><strong>Legislation:</strong> Press Act 1857, Indian Press Act 1910<br>
+                                <strong>Frequency Distribution:</strong> Daily 5% | Weekly 35% | Monthly 60%<br>
+                                <strong>Context:</strong> Security deposits forced publishers to weekly/monthly schedules. Daily newspapers required massive capital that only established publishers could afford.</p>
+                                
+                                <h3 style="color: #FFC185; margin-top: 24px; margin-bottom: 12px;">📣 1910-1947: Vernacular Press Act</h3>
+                                <p><strong>Legislation:</strong> Vernacular Press Act 1878<br>
+                                <strong>Frequency Distribution:</strong> Daily 8% | Weekly 40% | Monthly 52%<br>
+                                <strong>Context:</strong> Regional weeklies became primary vehicle for journalism. Dailies most vulnerable to censorship and financial penalties.</p>
+                                
+                                <h3 style="color: #B4413C; margin-top: 24px; margin-bottom: 12px;">⚖️ 1951-1975: POMA Era</h3>
+                                <p><strong>Legislation:</strong> POMA 1951 bans pre-censorship<br>
+                                <strong>Frequency Distribution:</strong> Daily 14% | Weekly 38% | Monthly 48%<br>
+                                <strong>Context:</strong> Legal incentive for dailies exists, but weekly culture persists due to distribution logistics and reader habits.</p>
+                                
+                                <h3 style="color: #DB4545; margin-top: 24px; margin-bottom: 12px;">⚠️ 1975-1977: Emergency</h3>
+                                <p><strong>Legislation:</strong> Emergency decree, direct censorship<br>
+                                <strong>Frequency Distribution:</strong> Daily 10% | Weekly 42% | Monthly 48%<br>
+                                <strong>Context:</strong> Dailies vulnerable to real-time monitoring. Many shifted to weekly schedules for safety. Weekly publications could avoid immediate government scrutiny.</p>
+                                
+                                <h3 style="color: #5D878F; margin-top: 24px; margin-bottom: 12px;">📈 1977-1991: Post-Emergency</h3>
+                                <p><strong>Legislation:</strong> Constitution restored<br>
+                                <strong>Frequency Distribution:</strong> Daily 12% | Weekly 41% | Monthly 47%<br>
+                                <strong>Context:</strong> Market forces dominate. Distribution logistics favor weekly publications in rural areas where infrastructure remains weak.</p>
+                                
+                                <h3 style="color: #D4AF37; margin-top: 24px; margin-bottom: 12px;">🌐 1991+: Liberalization &amp; Digital</h3>
+                                <p><strong>Legislation:</strong> Press freedom fully institutionalized<br>
+                                <strong>Frequency Distribution:</strong> Daily 12% | Weekly 31% | Monthly 57%<br>
+                                <strong>Context:</strong> Market consolidation. Digital disrupts print. Monthly magazines find niche markets while weekly newspapers decline.</p>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    
+                    
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal 6: Foreign Languages -->
+        <div class="modal-overlay" id="modalOverlay6">
+            <div class="modal-content">
+                <button class="modal-close" onclick="closeModal6()" aria-label="Close">&times;</button>
+                <div class="modal-body">
+                    <!-- Tab Navigation -->
+                    <div class="tab-navigation">
+                        <button class="tab-button active" onclick="showTab(6, 1)">Language Distribution</button>
+                        <button class="tab-button" onclick="showTab(6, 2)">Geographic Clusters</button>
+                        <button class="tab-button" onclick="showTab(6, 3)">Growth Timeline</button>
+                    </div>
+                    
+                    <!-- Tab 1: Language Distribution -->
+                    <div class="tab-content" id="card6-tab1">
+                    <div class="visualization-container">
+                        <div class="map-headline">Foreign Language Publications</div>
+                        <p style="text-align: center; font-style: italic; margin-bottom: 24px;">Minority and diaspora communities finding voice</p>
+                        <div id="foreignLanguageChart" style="height: 500px;"></div>
+                    </div>
+                    </div>
+                    
+                    <!-- Tab 2: Geographic Clusters -->
+                    <div class="tab-content" id="card6-tab2" style="display: none;">
+                    <div class="visualization-container">
+                        <div class="map-headline">Geographic Clustering of Foreign Language Press</div>
+                        <div class="analysis-body" style="padding: 24px;">
+                            <div class="analysis-text" style="columns: 1;">
+                                <h3 style="color: #1FB8CD; margin-bottom: 12px;">🌏 Nepali (206 periodicals | 72.53%)</h3>
+                                <p><strong>Primary Regions:</strong> Darjeeling, Sikkim, Hill regions of West Bengal<br>
+                                <strong>Context:</strong> Border communities with linguistic and cultural ties to Nepal. Post-independence linguistic federalism enabled Nepali-speaking minorities to establish robust press infrastructure denied under colonial 'divide and rule' policies.<br>
+                                <strong>Growth Pattern:</strong> Steady growth from 20 (1947-51) to 206 (2011+), showing constitutional protections enabling minority voices.</p>
+                                
+                                <h3 style="color: #FFC185; margin-top: 24px; margin-bottom: 12px;">🕌 Arabic (33 periodicals | 11.61%)</h3>
+                                <p><strong>Primary Regions:</strong> Kerala, Tamil Nadu, Coastal areas<br>
+                                <strong>Context:</strong> Historical Islamic trade routes and Muslim minority communities. Kerala's Malabar coast has centuries-old Arabic literacy due to Arab trade connections.<br>
+                                <strong>Growth Pattern:</strong> Gradual increase from 5 (1947-51) to 33 (2011+), concentrated in regions with significant Muslim populations.</p>
+                                
+                                <h3 style="color: #B4413C; margin-top: 24px; margin-bottom: 12px;">🏯 Tibetan (7 periodicals | 2.46%)</h3>
+                                <p><strong>Primary Regions:</strong> Delhi NCR, Himachal Pradesh (Dharamshala)<br>
+                                <strong>Context:</strong> Refugee communities post-1959 following Chinese occupation of Tibet. India granted political asylum, enabling Tibetan government-in-exile and free press denied in occupied homeland.<br>
+                                <strong>Growth Pattern:</strong> Emerged only after 1960 (2 periodicals), growing to 7 by 2011+. Small but politically significant diaspora press.</p>
+                                
+                                <h3 style="color: #5D878F; margin-top: 24px; margin-bottom: 12px;">🇫🇷 French (8 periodicals | 2.81%)</h3>
+                                <p><strong>Primary Regions:</strong> Pondicherry (former French colony), Urban centers<br>
+                                <strong>Context:</strong> French Union territory legacy. Pondicherry remained under French control until 1954, maintaining French language education and cultural institutions.<br>
+                                <strong>Growth Pattern:</strong> Stable at 5-8 periodicals throughout post-independence period, concentrated in Pondicherry and francophone urban elites.</p>
+                                
+                                <h3 style="color: #D4AF37; margin-top: 24px; margin-bottom: 12px;">🌎 Others (30 periodicals | 10.56%)</h3>
+                                <p><strong>Languages Include:</strong> Persian, German, Chinese, Japanese, Russian, Spanish<br>
+                                <strong>Context:</strong> Urban cosmopolitan centers, diplomatic communities, international business hubs<br>
+                                <strong>Distribution:</strong> Concentrated in Delhi, Mumbai, Bangalore - cities with significant expatriate populations and international institutions.</p>
+                                
+                                <p style="margin-top: 24px; font-style: italic; border-left: 3px solid var(--news-border); padding-left: 16px;">
+                                <strong>Key Insight:</strong> This small but significant foreign language press sector (284 total) demonstrates how India's constitutional framework accommodates minority and diaspora communities that colonial censorship suppressed.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    
+                    <!-- Tab 3: Growth Timeline -->
+                    <div class="tab-content" id="card6-tab3" style="display: none;">
+                    <div class="visualization-container">
+                        <div class="map-headline">Post-Independence Foreign Language Press Growth</div>
+                        <div id="foreignLanguageTimelineChart" style="height: 500px;"></div>
+                    </div>
+                    </div>
+                    
+                    
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal 8: Discourse Analysis (Card 8) -->
+<div class="modal-overlay" id="modalOverlay8">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeModal8()" aria-label="Close">&times;</button>
+        <div class="modal-body">
+            <!-- Tab Navigation -->
+            <div class="tab-navigation">
+                <button class="tab-button active" onclick="showTab(8, 1)">Word Clouds</button>
+                <button class="tab-button" onclick="showTab(8, 2)">Data Context</button>
+            </div>
+            
+            <!-- Tab 1: Word Clouds Side-by-Side -->
+            <div class="tab-content" id="card8-tab1">
+                <div class="visualization-container">
+                    <div class="map-headline">Shifting Discourse: Language Analysis Before & After Independence</div>
+                    <p style="text-align: center; font-style: italic; margin-bottom: 24px;">Vocabulary transformation from colonial resistance to sovereign governance</p>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px;">
+                        <div style="text-align: center;">
+                            <h3 style="font-family: 'Playfair Display', Georgia, serif; font-size: 20px; color: #1A1A1A; margin-bottom: 12px;">April 1947: Pre-Independence</h3>
+                            <p style="font-family: 'Merriweather', Georgia, serif; font-size: 14px; color: #2C1810; font-style: italic; margin-bottom: 16px;">Colonial governance • Communal tensions • Political struggle</p>
+                            <img src="https://files.catbox.moe/23t8bo.png" alt="Word Cloud April 1947" style="width: 100%; height: auto; border: 2px solid #1A1A1A; box-shadow: 0 4px 8px rgba(0,0,0,0.15);">
+                        </div>
+                        <div style="text-align: center;">
+                            <h3 style="font-family: 'Playfair Display', Georgia, serif; font-size: 20px; color: #1A1A1A; margin-bottom: 12px;">April 1948: Post-Independence</h3>
+                            <p style="font-family: 'Merriweather', Georgia, serif; font-size: 14px; color: #2C1810; font-style: italic; margin-bottom: 16px;">Administrative structure • Partition reality • Institution-building</p>
+                            <img src="https://files.catbox.moe/29hz6c.png" alt="Word Cloud April 1948" style="width: 100%; height: auto; border: 2px solid #1A1A1A; box-shadow: 0 4px 8px rgba(0,0,0,0.15);">
+                        </div>
+                    </div>
+                    
+                    <div class="analysis-body" style="padding: 24px; margin-top: 24px;">
+                        <div class="analysis-text" style="columns: 1;">
+                            <h3 style="color: #1FB8CD; margin-bottom: 12px;">Key Vocabulary Transformations</h3>
+                            <p><strong>1947 Dominant Terms:</strong> 'people' (285), 'member' (245), 'government' (230), 'league' (180), 'political' (165), 'hindu' (155), 'british' (145) — Political negotiation vocabulary, communal identity markers, colonial authority references</p>
+                            
+                            <p><strong>1948 Dominant Terms:</strong> 'government' (310), 'state' (280), 'district' (260), 'like' (240), 'strike' (220), 'pakistan' (200), 'central' (190), 'bengal' (180), 'railway' (170), 'student' (160) — Administrative structure, partition reality, civic engagement, institutional frameworks</p>
+                            
+                            <p><strong>Critical Shift:</strong> 'League' drops from 180 to negligible. 'Pakistan' appears at 200. 'British' vanishes. 'Strike' rises from 50 to 220. 'Student' jumps from 0 to 160. This semantic transformation demonstrates how constitutional protections (POMA 1951) enabled frank discussion of nation-building challenges that would have been censored under colonial rule.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tab 2: Data Context -->
+            <div class="tab-content" id="card8-tab2" style="display: none;">
+                <div class="visualization-container">
+                    <div class="map-headline">Methodology & Data Source</div>
+                    <div class="analysis-body">
+                        <div class="analysis-text" style="columns: 1;">
+                            <h3 style="color: #1FB8CD; margin-bottom: 12px;">📊 Data Source</h3>
+                            <p>Word frequency data extracted from historical newspaper archives covering April 1947 (pre-independence) and April 1948 (post-independence) periods. Analysis based on corpus of periodicals from RNI database showing discourse patterns during India's transition.</p>
+                            
+                            <h3 style="color: #FFC185; margin-top: 24px; margin-bottom: 12px;">🔬 Methodology</h3>
+                            <p><strong>Bag-of-Words Analysis:</strong> Computational text analysis technique counting word frequencies to identify dominant themes and vocabulary patterns. Size of words in visualization correlates with frequency of appearance in corpus.</p>
+                            
+                            <p><strong>Time Periods:</strong><br>
+                            • <strong>April 1947:</strong> Pre-independence period during final negotiations, partition discussions, and communal tensions<br>
+                            • <strong>April 1948:</strong> Post-independence period showing nation-building, administrative reorganization, and partition aftermath</p>
+                            
+                            <h3 style="color: #B4413C; margin-top: 24px; margin-bottom: 12px;">📈 Frequency Metrics</h3>
+                            <p>Word sizes represent normalized frequency scores (0-100 scale) derived from appearance counts in periodical corpus. Larger words appeared significantly more frequently in press discourse of that period.</p>
+                            
+                            <h3 style="color: #5D878F; margin-top: 24px; margin-bottom: 12px;">🎯 Research Significance</h3>
+                            <p>This linguistic analysis provides empirical evidence of how India's press discourse transformed during independence. The vocabulary shift from colonial resistance terminology to sovereign governance language demonstrates how press freedom enabled new forms of civic discourse post-independence.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <!-- Modal 7: Registration Status (Card 3) -->
+        <div class="modal-overlay" id="modalOverlay7">
+            <div class="modal-content">
+                <button class="modal-close" onclick="closeModal7()" aria-label="Close">&times;</button>
+                <div class="modal-body">
+                    <!-- Tab Navigation -->
+                    <div class="tab-navigation">
+                        <button class="tab-button active" onclick="showTab(7, 1)">Registration Data</button>
+                        <button class="tab-button" onclick="showTab(7, 2)">Timeline</button>
+                        <button class="tab-button" onclick="showTab(7, 3)">Era Details</button>
+                    </div>
+                    
+                    <!-- Tab 1: Registration Data -->
+                    <div class="tab-content" id="card7-tab1">
+                    <div class="visualization-container">
+                        <div class="map-headline">Press Institutionalization</div>
+                        <p style="text-align: center; font-style: italic; margin-bottom: 24px;">From underground presses to formalized publications</p>
+                        <div id="registrationChart" style="height: 300px;"></div>
+                    </div>
+                    </div>
+                    
+                    <!-- Tab 2: Timeline -->
+                    <div class="tab-content" id="card7-tab2" style="display: none;">
+                    <div class="visualization-container">
+                        <div class="map-headline">Registration Surges Through Different Eras</div>
+                        <div id="registrationTimelineChart" style="height: 500px;"></div>
+                    </div>
+                    </div>
+                    
+                    <!-- Tab 3: Era Details -->
+                    <div class="tab-content" id="card7-tab3" style="display: none;">
+                    <div class="visualization-container">
+                        <div class="map-headline">Detailed Era Breakdown</div>
+                        <div class="analysis-body" style="padding: 24px;">
+                            <div class="analysis-text" style="columns: 1;">
+                                <h3 style="color: #7A6430; margin-bottom: 12px;">🏛️ Colonial Pre-1947</h3>
+                                <p><strong>Old Registration:</strong> ~5,000 | <strong>New Registration:</strong> Negligible<br>
+                                <strong>Context:</strong> Security deposits under Press Act 1910 blocked most publishers. Only established, government-friendly publications could afford massive deposits. Underground press operated illegally without registration.</p>
+                                
+                                <h3 style="color: #B4413C; margin-top: 24px; margin-bottom: 12px;">🇮🇳 Independence Transition (1947-1951)</h3>
+                                <p><strong>Old Registration:</strong> ~10,000 | <strong>New Registration:</strong> ~2,000<br>
+                                <strong>Context:</strong> Partition chaos and uncertainty. Sardar Patel's Press (Special Power) Bill (1947) provided emergency legislation. New registrations limited due to transitional instability.</p>
+                                
+                                <h3 style="color: #1FB8CD; margin-top: 24px; margin-bottom: 12px;">⚖️ POMA Era (1951-1960)</h3>
+                                <p><strong>Old Registration:</strong> ~15,000 | <strong>New Registration:</strong> ~8,000<br>
+                                <strong>Context:</strong> POMA 1951 bans pre-censorship, enables explosion of new registrations. Small publishers can now operate without massive security deposits. Constitutional framework solidifies press freedom.</p>
+                                
+                                <h3 style="color: #5D878F; margin-top: 24px; margin-bottom: 12px;">📈 Growth Period (1960-1975)</h3>
+                                <p><strong>Old Registration:</strong> ~25,000 | <strong>New Registration:</strong> ~18,000<br>
+                                <strong>Context:</strong> Sustained growth under constitutional protections. Federalism enables regional press expansion. Green Revolution prosperity supports publishing infrastructure.</p>
+                                
+                                <h3 style="color: #DB4545; margin-top: 24px; margin-bottom: 12px;">⚠️ Emergency Freeze (1975-1977)</h3>
+                                <p><strong>Old Registration:</strong> ~28,000 | <strong>New Registration:</strong> ~19,000<br>
+                                <strong>Context:</strong> Registration effectively frozen. Direct censorship suppresses publications. Many newspapers shut down or go underground. Growth rate plummets.</p>
+                                
+                                <h3 style="color: #FFC185; margin-top: 24px; margin-bottom: 12px;">🔄 Recovery (1977-1991)</h3>
+                                <p><strong>Old Registration:</strong> ~38,000 | <strong>New Registration:</strong> ~28,000<br>
+                                <strong>Context:</strong> Slow post-Emergency recovery. Economic stagnation limits growth. Formal censorship restrictions lifted, but economic constraints remain.</p>
+                                
+                                <h3 style="color: #D4AF37; margin-top: 24px; margin-bottom: 12px;">🌍 Liberalization (1991-2011)</h3>
+                                <p><strong>Old Registration:</strong> ~55,000 | <strong>New Registration:</strong> ~42,000<br>
+                                <strong>Context:</strong> Market explosion! Economic liberalization enables unprecedented press expansion. Foreign Direct Investment flows into media. Advertising revenue surges.</p>
+                                
+                                <h3 style="color: #13343B; margin-top: 24px; margin-bottom: 12px;">📱 Digital Era (2011+)</h3>
+                                <p><strong>Old Registration:</strong> 65,572 (56.27%) | <strong>New Registration:</strong> 50,954 (43.72%) | <strong>Unregistered:</strong> 5 (0.004%)<br>
+                                <strong>Context:</strong> Print consolidation begins. Digital disrupts traditional publishing. Near-zero unregistered publications shows successful formalization - publishers no longer operate in legal gray areas.</p>
+                                
+                                <p style="margin-top: 24px; font-style: italic; border-left: 3px solid var(--news-border); padding-left: 16px;">
+                                <strong>Key Insight:</strong> From 5,000 colonial-era registrations to 116,531 today - India's press transformed from censored colonial instrument to constitutionally protected democratic institution.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                    
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
